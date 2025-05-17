@@ -1,10 +1,18 @@
-import React from 'react';
-import Navbar from './component/Navbar';
-import Card from './component/Card';
-import Footer from './component/Footer';
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
+import Card from './components/Card';
+import Footer from './components/Footer';
+
+interface Shoe {
+  image: string;
+  title: string;
+  description: string;
+}
 
 function App() {
-  const shoes = [
+  const [darkMode, setDarkMode] = useState(false);
+
+  const shoes: Shoe[] = [
     {
       image: '/assets/shoe1.jpg',
       title: 'RIVAK Runner',
@@ -23,8 +31,8 @@ function App() {
   ];
 
   return (
-    <div className="container">
-      <Navbar />
+    <div className={darkMode ? 'container dark' : 'container'}>
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <main className="main" id="home">
         <section className="product-section">
@@ -34,6 +42,7 @@ function App() {
               image={shoe.image}
               title={shoe.title}
               description={shoe.description}
+              darkMode={darkMode}
             />
           ))}
         </section>
@@ -44,17 +53,21 @@ function App() {
         <p>
           RIVAK Shoes is dedicated to delivering premium quality footwear combining comfort,
           style, and durability. Whether you need running shoes, casual wear, or trekking boots,
-          RAVIK has you covered.
+          RIVAK has you covered.
         </p>
       </section>
 
       <section className="section contact-section" id="contact">
         <h2>Contact Us</h2>
-        <p>Email: <a href="mailto:support@ravikshoes.com">support@ravikshoes.com</a></p>
-        <p>Phone: <a href="tel:+12345678901">+1 234 567 8901</a></p>
+        <p>
+          Email: <a href="mailto:support@ravikshoes.com">support@ravikshoes.com</a>
+        </p>
+        <p>
+          Phone: <a href="tel:+12345678901">+1 234 567 8901</a>
+        </p>
       </section>
 
-      <Footer />
+      <Footer darkMode={darkMode} />
     </div>
   );
 }
