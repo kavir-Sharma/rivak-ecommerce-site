@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import SignupForm from './Signup';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -6,6 +7,12 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
+  const [showSignup, setShowSignup] = useState(false);
+
+  const toggleSignup = () => {
+    setShowSignup((prev) => !prev);
+  };
+
   return (
     <nav className={`navbar ${darkMode ? 'dark-nav' : ''}`}>
       <div className="logo">
@@ -22,8 +29,8 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
         </ul>
 
         <div className="auth-buttons">
-          <button>Login</button>
-          <button>Signup</button>
+          <button onClick={toggleSignup}>Signup</button> {/* Signup toggles dropdown */}
+          <button>Login</button> {/* Just Login button here */}
         </div>
 
         {/* Dark Mode Switch */}
@@ -36,6 +43,13 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
           <span className="slider round"></span>
         </label>
       </div>
+
+      {/* Signup Dropdown */}
+      {showSignup && (
+        <div className="signup-dropdown">
+          <SignupForm />
+        </div>
+      )}
     </nav>
   );
 };
