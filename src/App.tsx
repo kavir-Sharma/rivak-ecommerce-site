@@ -9,8 +9,8 @@ interface Shoe {
   description: string;
 }
 
-function App() {
-  const [darkMode, setDarkMode] = useState(false);
+const App: React.FC = () => {
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
   const shoes: Shoe[] = [
     {
@@ -31,7 +31,7 @@ function App() {
   ];
 
   return (
-    <div className={darkMode ? 'container dark' : 'container'}>
+    <div className={`container${darkMode ? ' dark' : ''}`}>
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <main className="main" id="home">
@@ -70,6 +70,6 @@ function App() {
       <Footer darkMode={darkMode} />
     </div>
   );
-}
+};
 
 export default App;

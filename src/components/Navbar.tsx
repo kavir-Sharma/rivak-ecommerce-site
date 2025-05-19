@@ -29,11 +29,10 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
         </ul>
 
         <div className="auth-buttons">
-          <button onClick={toggleSignup}>Signup</button> {/* Signup toggles dropdown */}
-          <button>Login</button> {/* Just Login button here */}
+          <button onClick={toggleSignup}>Signup</button> 
+          <button>Login</button> 
         </div>
 
-        {/* Dark Mode Switch */}
         <label className="switch">
           <input
             type="checkbox"
@@ -44,7 +43,6 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
         </label>
       </div>
 
-      {/* Signup Dropdown */}
       {showSignup && (
         <div className="signup-dropdown">
           <SignupForm />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface FormData {
   name: string;
@@ -6,7 +6,7 @@ interface FormData {
   password: string;
 }
 
-const SignupForm: React.FC = () => {
+const Signup: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
@@ -15,6 +15,13 @@ const SignupForm: React.FC = () => {
 
   const [submitted, setSubmitted] = useState(false);
 
+  useEffect(() => {
+    const savedData = localStorage.getItem('signupData');
+    if (savedData) {
+      setFormData(JSON.parse(savedData));
+    }
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -22,13 +29,17 @@ const SignupForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
+    
+    localStorage.setItem('signupData', JSON.stringify(formData));
+    
     setSubmitted(true);
+
     setFormData({ name: '', email: '', password: '' });
+
   };
 
   return (
-    <div className="signup-form">
+    <div className="signup">
       <h2>Signup</h2>
       {submitted && <p className="success-msg">Signup successful!</p>}
       <form onSubmit={handleSubmit}>
@@ -65,4 +76,4 @@ const SignupForm: React.FC = () => {
   );
 };
 
-export default SignupForm;
+export default Signup;
