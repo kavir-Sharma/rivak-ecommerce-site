@@ -33,15 +33,12 @@ const Signup: React.FC = () => {
     }));
   };
 
-  // Validate name: only letters and spaces, at least 2 characters
   const isValidName = (name: string) => /^[A-Za-z\s]{2,}$/.test(name);
 
-  // Clear error message after 3 seconds
   const clearErrorAfterDelay = () => {
     setTimeout(() => setError(null), 3000);
   };
 
-  // Clear success message after 3 seconds
   const clearSubmittedAfterDelay = () => {
     setTimeout(() => setSubmitted(false), 3000);
   };
@@ -85,7 +82,7 @@ const Signup: React.FC = () => {
 
   return (
     <div className="container">
-      {/* Popup message above form */}
+      {}
       {(submitted || error) && (
         <div className={`custom-popup ${error ? 'error-popup' : 'success-popup'}`}>
           <p>{error ? error : 'Signup successful!'}</p>

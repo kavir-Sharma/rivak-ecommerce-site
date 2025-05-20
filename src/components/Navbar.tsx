@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SignupForm from './Signup';
+import LoginForm from './Login';
 
 interface NavbarProps {
   darkMode: boolean;
@@ -8,9 +9,23 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
   const [showSignup, setShowSignup] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
 
   const toggleSignup = () => {
     setShowSignup((prev) => !prev);
+    setShowLogin(false);
+  };
+
+  const toggleLogin = () => {
+    setShowLogin((prev) => !prev);
+    setShowSignup(false);
+  };
+
+  const handleLogout = () => {
+    setLoggedInUser(null);
+    setShowLogin(false);
+    setShowSignup(false);
   };
 
   return (
@@ -28,10 +43,18 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
           <li><a href="#contact">Contact</a></li>
         </ul>
 
-        <div className="auth-buttons">
-          <button onClick={toggleSignup}>Signup</button> 
-          <button>Login</button> 
-        </div>
+        {loggedInUser ? (
+          <div className="user-info">
+            <span className="welcome">Welcome, {loggedInUser.split('@')[0]}</span>
+            <button className="logout-btn" onClick={handleLogout}>Logout</button>
+
+          </div>
+        ) : (
+          <div className="auth-buttons">
+            <button onClick={toggleSignup}>Signup</button>
+            <button onClick={toggleLogin}>Login</button>
+          </div>
+        )}
 
         <label className="switch">
           <input
@@ -43,9 +66,18 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
         </label>
       </div>
 
-      {showSignup && (
-        <div className="signup-dropdown">
+      {showSignup && !loggedInUser && (
+        <div className="auth-dropdown">
           <SignupForm />
+        </div>
+      )}
+
+      {showLogin && !loggedInUser && (
+        <div className="auth-dropdown">
+          <LoginForm onLoginSuccess={(email) => {
+            setLoggedInUser(email);
+            setShowLogin(false);
+          }} />
         </div>
       )}
     </nav>
