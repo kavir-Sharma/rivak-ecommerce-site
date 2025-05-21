@@ -27,8 +27,8 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: #111;
-  color: white;
+  background: #f7f8f2;
+  color: rgb(12, 12, 13);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 999;
@@ -36,7 +36,19 @@ body {
 }
 
 .navbar.dark-nav {
-  background-color: #1a1a1a;
+  background-color: #100a0a;
+  color: white;
+}
+
+.navbar.dark-nav a,
+.navbar.dark-nav .brand-name,
+.navbar.dark-nav .nav-links a {
+  color: white;
+}
+
+.navbar.dark-nav .nav-links a:hover {
+  color: #ff6f61;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .logo {
@@ -53,6 +65,10 @@ body {
 .brand-name {
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.container.dark .logo-img {
+  filter: brightness(0) invert(1);
 }
 
 .nav-right {
@@ -89,7 +105,7 @@ body {
 }
 
 .auth-buttons button {
-  background: linear-gradient(to right, #ff6f61, #ff8561);
+  background: linear-gradient(to right, #ef1704, #df3805);
   border: none;
   color: white;
   padding: 8px 16px;
@@ -101,7 +117,7 @@ body {
 
 .auth-buttons button:hover {
   transform: scale(1.05);
-  background: linear-gradient(to right, #e85a4f, #ff6f61);
+  background: linear-gradient(to right, #840a01, #840c01);
 }
 
 .container.dark .auth-buttons button {
@@ -456,7 +472,7 @@ input:checked + .slider:before {
   padding: 0.5rem 1rem;
   font-size: 0.95rem;
   font-weight: 600;
-  background-color: #e74c3c;
+  background-color: #a21303;
   color: white;
   border: none;
   border-radius: 6px;
@@ -465,7 +481,7 @@ input:checked + .slider:before {
 }
 
 .logout-btn:hover {
-  background-color: #c0392b;
+  background-color: #670c02;
   transform: translateY(-1px);
 }
 
@@ -533,4 +549,208 @@ input:checked + .slider:before {
   background: linear-gradient(to right, #0056b3, #1f6fcc);
   transform: translateY(-1px);
 }
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
 
+.slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.slide.active {
+  display: flex;
+}
+
+.slide-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.slide-text {
+  flex: 1;
+  padding: 2rem;
+}
+
+.slide-text h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.slide-text p {
+  font-size: 1.2rem;
+}
+
+.slide-image {
+  flex: 1.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide-image img {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  font-size: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  transform: translateY(-50%);
+}
+
+.nav-button.left {
+  left: 20px;
+}
+
+.nav-button.right {
+  right: 20px;
+}
+
+@media (max-width: 768px) {
+  .slide-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .slide-image {
+    flex: none;
+    width: 100%;
+  }
+
+  .slide-image img {
+    max-height: 70vh;
+  }
+
+  .slide-text h2 {
+    font-size: 2rem;
+  }
+
+  .slide-text p {
+    font-size: 1rem;
+  }
+}
+.about-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.about-heading {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.about-subheading {
+  font-size: 1.2rem;
+  color: #777;
+  margin-bottom: 2rem;
+}
+
+.about-text {
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.about-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 2rem;
+  max-width: 600px;
+}
+
+.about-features li {
+  font-size: 1rem;
+  padding: 0.5rem 0;
+}
+
+.about-image {
+  max-width: 100%;
+  height: 250px;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.contact-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #f0f0f0;
+}
+
+.contact-heading {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.contact-subheading {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.contact-details {
+  font-size: 1.1rem;
+  line-height: 2;
+}
+
+.contact-details a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.social-icons a {
+  font-weight: bold;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.social-icons a:hover {
+  color: #e91e63;
+}
+
+.contact-section.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+.contact-section.dark a {
+  color: #66ccff;
+}
+
+.about-section.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+}

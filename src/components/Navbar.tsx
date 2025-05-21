@@ -39,7 +39,9 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, setDarkMode }) => {
         <ul className="nav-links">
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#products">Products</a></li>
+          <li><a href="#men">Men</a></li>
+           <li><a href="#women">Women</a></li>
+            <li><a href="#kids">Kids</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
 
