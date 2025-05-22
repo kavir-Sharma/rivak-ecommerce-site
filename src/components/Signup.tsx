@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import '../index.css';
 
 interface FormData {
@@ -8,12 +9,7 @@ interface FormData {
 }
 
 const Signup: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    password: '',
-  });
-
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [allData, setAllData] = useState<FormData[]>([]);
@@ -25,74 +21,38 @@ const Signup: React.FC = () => {
     }
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const isValidName = (name: string) => /^[A-Za-z\s]{2,}$/.test(name);
-
-  const clearErrorAfterDelay = () => {
-    setTimeout(() => setError(null), 3000);
-  };
-
-  const clearSubmittedAfterDelay = () => {
-    setTimeout(() => setSubmitted(false), 3000);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const trimmedData: FormData = {
-      name: formData.name.trim(),
-      email: formData.email.trim(),
-      password: formData.password.trim(),
+  const onSubmit = (data: FormData) => {
+    const trimmedData = {
+      name: data.name.trim(),
+      email: data.email.trim(),
+      password: data.password.trim(),
     };
 
-    if (!trimmedData.name || !trimmedData.email || !trimmedData.password) {
-      setError('Please fill in all fields.');
-      clearErrorAfterDelay();
-      return;
-    }
-
-    if (!isValidName(trimmedData.name)) {
-      setError('Please enter a valid name (only letters and spaces, minimum 2 characters).');
-      clearErrorAfterDelay();
-      return;
-    }
-
     if (trimmedData.password.length < 6) {
-      setError('Password must be at least 6 characters long.');
-      clearErrorAfterDelay();
+      setError('Password must be at least 6 characters.');
+      setTimeout(() => setError(null), 3000);
       return;
     }
 
     const updatedData = [...allData, trimmedData];
     localStorage.setItem('signupDataArray', JSON.stringify(updatedData));
-
     setAllData(updatedData);
     setSubmitted(true);
-    setFormData({ name: '', email: '', password: '' });
+    reset();
 
-    clearSubmittedAfterDelay();
+    setTimeout(() => setSubmitted(false), 3000);
   };
 
   return (
     <div className="container">
-      {}
       {(submitted || error) && (
         <div className={`custom-popup ${error ? 'error-popup' : 'success-popup'}`}>
-          <p>{error ? error : 'Signup successful!'}</p>
+          <p>{error || 'Signup successful!'}</p>
           <button
             className="close-btn"
             onClick={() => {
-              if (error) setError(null);
-              else setSubmitted(false);
+              error ? setError(null) : setSubmitted(false);
             }}
-            aria-label="Close popup"
           >
             ×
           </button>
@@ -101,33 +61,40 @@ const Signup: React.FC = () => {
 
       <div className="signup">
         <h2>Signup</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <input
             type="text"
-            name="name"
             placeholder="Full Name"
-            value={formData.name}
-            onChange={handleChange}
-            required
+            {...register("name", {
+              required: "Name is required",
+              minLength: { value: 2, message: "Minimum 2 characters" },
+              pattern: {
+                value: /^[A-Za-z\s]+$/,
+                message: "Only letters and spaces allowed"
+              }
+            })}
           />
+          {errors.name && <p className="error">{errors.name.message}</p>}
 
           <input
             type="email"
-            name="email"
             placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: "Invalid email address"
+              }
+            })}
           />
+          {errors.email && <p className="error">{errors.email.message}</p>}
 
           <input
             type="password"
-            name="password"
             placeholder="Password (min 6 chars)"
-            value={formData.password}
-            onChange={handleChange}
-            required
+            {...register("password", { required: "Password is required" })}
           />
+          {errors.password && <p className="error">{errors.password.message}</p>}
 
           <button type="submit">Sign Up</button>
         </form>

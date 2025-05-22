@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import '../index.css';
 
 interface FormData {
@@ -11,23 +12,18 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
-  const [formData, setFormData] = useState<FormData>({ email: '', password: '' });
-  const [error, setError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setError,
+    clearErrors
+  } = useForm<FormData>();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmedEmail = formData.email.trim();
-    const trimmedPassword = formData.password.trim();
-
-    if (!trimmedEmail || !trimmedPassword) {
-      setError('Please fill in all fields.');
-      return;
-    }
+  const onSubmit = (data: FormData) => {
+    const trimmedEmail = data.email.trim();
+    const trimmedPassword = data.password.trim();
 
     const storedUsers = localStorage.getItem('signupDataArray');
     const users = storedUsers ? JSON.parse(storedUsers) : [];
@@ -39,39 +35,42 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
     if (matchedUser) {
       onLoginSuccess(trimmedEmail);
-      setFormData({ email: '', password: '' });
+      reset();
     } else {
-      setError('Invalid email or password.');
+      setError('email', { message: 'Invalid email or password.' });
+      setError('password', { message: ' ' }); // force showing the red border for password too
     }
   };
 
   return (
     <div className="login-container">
-      {error && (
-        <div className="custom-popup error-popup">
-          <p>{error}</p>
-          <button className="close-btn" onClick={() => setError(null)}>×</button>
-        </div>
-      )}
-
-      <form className="auth-form" onSubmit={handleSubmit}>
+      <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
         <h2>Login</h2>
+
         <input
           type="email"
-          name="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
+          {...register('email', {
+            required: 'Email is required',
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: 'Invalid email format',
+            },
+          })}
+          onFocus={() => clearErrors('email')}
         />
+        {errors.email && <p className="error">{errors.email.message}</p>}
+
         <input
           type="password"
-          name="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
+          {...register('password', {
+            required: 'Password is required',
+          })}
+          onFocus={() => clearErrors('password')}
         />
+        {errors.password && <p className="error">{errors.password.message}</p>}
+
         <button type="submit">Login</button>
       </form>
     </div>
