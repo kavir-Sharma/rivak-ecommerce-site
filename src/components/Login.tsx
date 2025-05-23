@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import '../index.css';
 
@@ -18,8 +18,16 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     formState: { errors },
     reset,
     setError,
-    clearErrors
+    clearErrors,
   } = useForm<FormData>();
+
+  const [popupMessage, setPopupMessage] = useState('');
+  const [popupType, setPopupType] = useState<'success' | 'error' | null>(null);
+
+  const closePopup = () => {
+    setPopupMessage('');
+    setPopupType(null);
+  };
 
   const onSubmit = (data: FormData) => {
     const trimmedEmail = data.email.trim();
@@ -35,15 +43,30 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
     if (matchedUser) {
       onLoginSuccess(trimmedEmail);
+      setPopupMessage('Login successful!');
+      setPopupType('success');
       reset();
     } else {
       setError('email', { message: 'Invalid email or password.' });
-      setError('password', { message: ' ' }); // force showing the red border for password too
+      setError('password', { message: ' ' });
+      setPopupMessage('Invalid email or password.');
+      setPopupType('error');
     }
+
+    setTimeout(() => {
+      closePopup();
+    }, 3000);
   };
 
   return (
     <div className="login-container">
+      {popupMessage && (
+        <div className={`custom-popup ${popupType === 'error' ? 'error-popup' : ''}`}>
+          <p>{popupMessage}</p>
+          <button className="close-btn" onClick={closePopup}>×</button>
+        </div>
+      )}
+
       <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
         <h2>Login</h2>
 

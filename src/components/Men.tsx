@@ -19,27 +19,27 @@ const Men: React.FC<MenProps> = ({ darkMode }) => {
     },
     {
       image: '/assets/men2.jpg',
-      title: 'RIVAK CLASSIC',
+      title: 'RIVAK TWO',
       description: 'Elegant leather loafers for any occasion.',
     },
     {
       image: '/assets/men3.jpg',
-      title: 'RIVAK FORMAL',
+      title: 'RIVAK THREE',
       description: 'Polished shoes for business or events.',
     },
     {
       image: '/assets/men4.jpg',
-      title: 'RIVAK BREEZE',
+      title: 'RIVAK FOUR',
       description: 'Lightweight white casual shoes.',
     },
     {
       image: '/assets/men5.jpg',
-      title: 'RIVAK STREET',
+      title: 'RIVAK FIVE',
       description: 'Bold streetwear-inspired design.',
     },
     {
       image: '/assets/men6.jpg',
-      title: 'RIVAK TRAIL',
+      title: 'RIVAK SIX',
       description: 'Durable boots for outdoor adventures.',
     },
   ];
